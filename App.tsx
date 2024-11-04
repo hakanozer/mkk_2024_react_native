@@ -1,35 +1,68 @@
-import { Text, SafeAreaView, StyleSheet } from 'react-native';
+import React, {useState} from 'react'
+import { Text, StyleSheet, TextInput, View, Image } from 'react-native';
+import { SafeAreaView  } from 'react-native-safe-area-context';
+import CustomButton from './components/CustomButton';
+import { backgroundColor } from './utils/theme';
 
-// You can import supported modules from npm
-import { Card } from 'react-native-paper';
-
-// or any files within the Snack
-import AssetExample from './components/AssetExample';
 
 export default function App() {
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const fncLogin = () => {
+    console.log(username, password)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.paragraph}>
-        merhaba - Change code in the editor and watch it change on your phone! Save to get a shareable url.
-      </Text>
-      <Card>
-        <AssetExample />
-      </Card>
+      <View style={{ alignItems: 'center', }}>
+        <Image source={ require('./assets/logo.png') } />
+      </View>
+      <Text style={styles.textTitle}>User Login</Text>
+      <TextInput autoCapitalize='none' onChangeText={ (txt) => setUsername(txt) } placeholder='Username' style={styles.txtInput}/>
+      <TextInput secureTextEntry onChangeText={ (txt) => setPassword(txt) } placeholder='Password' style={styles.txtInput}/>
+      <View style={styles.btnView}>
+        <CustomButton title='Login' fncAction={fncLogin} />
+        <CustomButton title='Register' fncAction={fncLogin} />
+      </View>
     </SafeAreaView>
   );
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: backgroundColor,
     padding: 8,
+    paddingTop: 40,
   },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
+  textTitle: {
     textAlign: 'center',
+    fontSize: 30,
   },
+  txtInput: {
+    borderColor: "black",
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 20,
+    borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  btnView: {
+    flexDirection: 'row',
+    justifyContent:'space-between',
+  },
+  btnSingleView: {
+    backgroundColor:'#159aed',
+    borderRadius: 5,
+    padding: 10,
+  },
+  btnText: {
+    textAlign: 'center',
+    color: '#ffffff',
+    fontSize: 20,
+  }
 });
