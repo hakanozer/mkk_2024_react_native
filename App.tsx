@@ -1,68 +1,60 @@
 import React, {useState} from 'react'
-import { Text, StyleSheet, TextInput, View, Image } from 'react-native';
-import { SafeAreaView  } from 'react-native-safe-area-context';
-import CustomButton from './components/CustomButton';
-import { backgroundColor } from './utils/theme';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+
+// import pages
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Products from './pages/Products';
+
+const MainStack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator();
+
+// Login Stack
+const LoginStack = () =>
+<MainStack.Navigator>
+  <MainStack.Screen name="Login" component={Login} options={{ headerShown: false, }}   />
+  <MainStack.Screen name="Register" component={Register}  />
+</MainStack.Navigator>
+
+
+// Products Stack
+const ProductsStack = () =>
+<MainStack.Navigator>
+  <MainStack.Screen name="Products" component={Products} options={{ headerShown: false, }}   />
+</MainStack.Navigator>
+
+// Main Tabs
+const MainTab = () => 
+<Tab.Navigator>
+  <Tab.Screen
+  options={{
+    tabBarLabel: 'Products',
+    tabBarIcon: ({ color, size }: any) => (
+      <Ionicons name="basket-outline" size={40} color={color} />
+    ),
+  }}
+  name="ProductsStack" 
+  component={ProductsStack} />
+</Tab.Navigator>
 
 
 export default function App() {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const fncLogin = () => {
-    console.log(username, password)
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ alignItems: 'center', }}>
-        <Image source={ require('./assets/logo.png') } />
-      </View>
-      <Text style={styles.textTitle}>User Login</Text>
-      <TextInput autoCapitalize='none' onChangeText={ (txt) => setUsername(txt) } placeholder='Username' style={styles.txtInput}/>
-      <TextInput secureTextEntry onChangeText={ (txt) => setPassword(txt) } placeholder='Password' style={styles.txtInput}/>
-      <View style={styles.btnView}>
-        <CustomButton title='Login' fncAction={fncLogin} />
-        <CustomButton title='Register' fncAction={fncLogin} />
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <MainStack.Navigator>
+        <MainStack.Screen name="LoginStack" component={LoginStack} options={{ headerShown: false, }}  />
+        <MainStack.Screen name="MainTab" component={MainTab} options={{ headerShown: false, }}  />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: backgroundColor,
-    padding: 8,
-    paddingTop: 40,
-  },
-  textTitle: {
-    textAlign: 'center',
-    fontSize: 30,
-  },
-  txtInput: {
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 20,
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  btnView: {
-    flexDirection: 'row',
-    justifyContent:'space-between',
-  },
-  btnSingleView: {
-    backgroundColor:'#159aed',
-    borderRadius: 5,
-    padding: 10,
-  },
-  btnText: {
-    textAlign: 'center',
-    color: '#ffffff',
-    fontSize: 20,
-  }
 });
