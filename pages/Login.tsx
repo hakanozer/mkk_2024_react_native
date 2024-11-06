@@ -5,18 +5,33 @@ import CustomButton from '../components/CustomButton';
 import { backgroundColor } from '../utils/theme';
 import { useNavigation } from '@react-navigation/native';
 import { dataModel } from '../models/dataModel';
+import { userLogin } from '../services/loginService';
+import Toast from 'react-native-toast-message';
+import { storeUser } from '../utils/storeUser';
 
 
 export default function Login() {
 
   const navigation = useNavigation();
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('mor_2314')
+  const [password, setPassword] = useState('83r5^_')
 
   const fncLogin = () => {
-    navigation.replace("MainTab")
-    console.log(username, password)
+    userLogin(username, password).then(res => {
+      const user = res.data
+      user.id = 2
+      storeUser(user).then(() => {
+        navigation.replace("MainTab")
+      })
+      console.log(res.data.token)
+    }).catch(err => {
+      Toast.show({
+        type:'error',
+        text1: err.message,
+        visibilityTime: 2000
+      })
+    })
   }
 
   const sendItem:dataModel = {
@@ -34,8 +49,8 @@ export default function Login() {
         <Image source={ require('../assets/logo.png') } />
       </View>
       <Text style={styles.textTitle}>User Login</Text>
-      <TextInput autoCapitalize='none' onChangeText={ (txt) => setUsername(txt) } placeholder='Username' style={styles.txtInput}/>
-      <TextInput secureTextEntry onChangeText={ (txt) => setPassword(txt) } placeholder='Password' style={styles.txtInput}/>
+      <TextInput defaultValue={username} autoCapitalize='none' onChangeText={ (txt) => setUsername(txt) } placeholder='Username' style={styles.txtInput}/>
+      <TextInput defaultValue={password} secureTextEntry onChangeText={ (txt) => setPassword(txt) } placeholder='Password' style={styles.txtInput}/>
       <View style={styles.btnView}>
         <CustomButton title='Login' fncAction={fncLogin} />
         <CustomButton title='Register' fncAction={fncGotoRegister} />
