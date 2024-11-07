@@ -12,7 +12,7 @@ export default function ProductItem( props: {item:IProduct} ) {
     <View style={styles.container}>
       <Image style={styles.image} source={{uri: props.item.image}} />
       <View>
-        <Text style={styles.title}> {props.item.title} </Text>
+        <Text numberOfLines={2} style={styles.title}> {props.item.title} </Text>
         <Text> {props.item.price}₺ </Text>
       </View>
     </View>
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     height: 100,
   },
   title: {
-    flexShrink: 1
+    flexShrink: 1,
   }
 });
