@@ -5,9 +5,14 @@ import { backgroundColor } from '../utils/theme';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { deleteUser, getUser } from '../utils/storeUser';
+import { useDispatch } from 'react-redux';
+import { allLikes } from '../utils/storeLikes';
+import { ILikeAction } from '../userRedux/likesReducer';
+import { enumLikes } from '../userRedux/enumLikes';
 
 export default function Splash() {
 
+  const dispath = useDispatch()
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -16,7 +21,16 @@ export default function Splash() {
         getUser().then((user => {
             if (user != null) {
               // service control
-              navigation.replace("MainTab")
+              const likesPromise = allLikes()
+              likesPromise.then(arr => {
+                const sendObj:ILikeAction = {
+                  type: enumLikes.LIKES_LIST,
+                  payload: arr
+                  }
+                  dispath(sendObj)
+                  navigation.replace("MainTab")
+              })
+              
             }else {
               navigation.replace("LoginStack")
             }

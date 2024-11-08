@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mkk_2024_react_native",
-    "slug": "snack-2d442388-6aad-4730-b3ad-6fe5204ee5b6",
+    "slug": "snack-00f2d77b-9de7-474e-b031-963a61fdb796",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hakanozer.snack00f2d77b9de7474eb031963a61fdb796"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "78a0d2cc-8d57-4734-8221-fd0a2ef9ea59"
+      }
     }
   }
 }

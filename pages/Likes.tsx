@@ -8,20 +8,22 @@ import { singleProduct } from '../services/productService';
 import axios from 'axios';
 import { IProduct } from '../models/IProducts';
 import ProductItem from '../components/ProductItem';
+import { useSelector } from 'react-redux';
+import { StateType } from '../userRedux/store';
 
 
 export default function Likes() {
-
+  // redux selector
+  const likesArr = useSelector( (item: StateType ) => item.likesReducer )
   const [arr, setArr] = useState<IProduct[]>([])
   const route = useRoute()
 
   useEffect(() => {
-    console.log("this line call")
-    allLikes().then(likes => {
-      console.log(likes)
+    
+      console.log(likesArr)
       //all(likes)
       
-      axios.all(likes.map(id => singleProduct(id))).then(arrRes => {
+      axios.all(likesArr.map(id => singleProduct(id))).then(arrRes => {
         let arr:IProduct[] = []
         arrRes.map(res => {
           console.log(res.data)
@@ -30,9 +32,7 @@ export default function Likes() {
         setArr(arr)
       })
 
-      
-    })
-  }, [])
+  }, [likesArr])
 
   const all = async (likes: number[]) => {
     for(var i = 0; i< likes.length; i++) {

@@ -15,10 +15,14 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import Detail from './pages/Detail';
 import Likes from './pages/Likes';
+import Profile from './pages/Profile';
+import UseMaps from './pages/UseMaps';
 
 // Header imports
 import ProductDetailHeader from './components/ProductDetailHeader';
 import { store } from './userRedux/store';
+
+
 
 const MainStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -67,6 +71,22 @@ const LikesStack = () => (
   </MainStack.Navigator>
 );
 
+// Profile Stack
+const ProfileStack = () => (
+  <MainStack.Navigator>
+    <MainStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{ headerShown: false }}
+    />
+    <MainStack.Screen
+      name="UseMaps"
+      component={UseMaps}
+      options={{ headerShown: true }}
+    />
+  </MainStack.Navigator>
+);
+
 // Main Tabs
 const MainTab = () => (
   <Tab.Navigator>
@@ -91,6 +111,17 @@ const MainTab = () => (
       }}
       name="LikesStack"
       component={LikesStack}
+    />
+    <Tab.Screen
+      options={{
+        //headerShown: false,
+        tabBarLabel: 'Profile',
+        tabBarIcon: ({ color, size }: any) => (
+          <Ionicons name="person-outline" size={40} color="black" />
+        ),
+      }}
+      name="ProfileStack"
+      component={ProfileStack}
     />
   </Tab.Navigator>
 );

@@ -6,9 +6,15 @@ import { useRoute } from '@react-navigation/native';
 import { IProduct } from '../models/IProducts';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { likesAddRemove, likesControl } from '../utils/storeLikes';
+import { allLikes, likesAddRemove, likesControl } from '../utils/storeLikes';
+import { useDispatch } from 'react-redux';
+import { ILikeAction } from '../userRedux/likesReducer';
+import { enumLikes } from '../userRedux/enumLikes';
 
 export default function Detail() {
+
+  // redux
+  const dispath = useDispatch()
 
   const [likesStatus, setLikesStatus] = useState(false)
   const navigation = useNavigation();
@@ -31,6 +37,14 @@ export default function Detail() {
     likesAddRemove(item.id).then(() => {
       likesControl(item.id).then(status => {
         setLikesStatus(status)
+        const likesPromise = allLikes()
+        likesPromise.then(arr => {
+          const sendObj:ILikeAction = {
+            type: enumLikes.LIKES_LIST,
+            payload: arr
+            }
+            dispath(sendObj)
+        })
       })
     })
   }
